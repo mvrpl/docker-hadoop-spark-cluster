@@ -1,0 +1,3 @@
+FROM hadoop-cluster-base:latest
+EXPOSE 8042
+CMD [ -z "$DONT_START" ] && /opt/hadoop/bin/yarn nodemanager

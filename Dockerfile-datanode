@@ -1,0 +1,2 @@
+FROM hadoop-cluster-base:latest
+CMD [ -z "$DONT_START" ] && /opt/hadoop/bin/hdfs datanode

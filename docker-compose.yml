@@ -1,0 +1,112 @@
+version: "3.9"
+services:
+  hadoop-cluster-base:
+    image: hadoop-cluster-base
+    build:
+      context: .
+      dockerfile: Dockerfile-base
+
+  hdfs-namenode:
+    hostname: hdfs-namenode
+    build:
+      context: .
+      dockerfile: Dockerfile-namenode
+    depends_on:
+      - hadoop-cluster-base
+    #volumes:
+    #  - hdfs0:/hadoop/namenode
+
+  hdfs-datanode-1:
+    hostname: hdfs-datanode-1
+    build:
+      context: .
+      dockerfile: Dockerfile-datanode
+    depends_on:
+      - hadoop-cluster-base
+    #volumes:
+    #  - hdfs1:/hadoop/datanode
+  hdfs-datanode-2:
+    hostname: hdfs-datanode-2
+    build:
+      context: .
+      dockerfile: Dockerfile-datanode
+    depends_on:
+      - hadoop-cluster-base
+    #volumes:
+    #  - hdfs2:/hadoop/datanode
+  hdfs-datanode-3:
+    hostname: hdfs-datanode-3
+    build:
+      context: .
+      dockerfile: Dockerfile-datanode
+    depends_on:
+      - hadoop-cluster-base
+    #volumes:
+    #  - hdfs3:/hadoop/datanode
+  hdfs-datanode-4:
+    hostname: hdfs-datanode-4
+    build:
+      context: .
+      dockerfile: Dockerfile-datanode
+    depends_on:
+      - hadoop-cluster-base
+    environment:
+      DONT_START: 1
+    #volumes:
+    #  - hdfs4:/hadoop/datanode
+  
+  yarn-resourcemanager:
+    hostname: yarn-resourcemanager
+    build:
+      context: .
+      dockerfile: Dockerfile-resourcemanager
+    depends_on:
+      - hadoop-cluster-base
+
+  yarn-nodemanager-1:
+    hostname: yarn-nodemanager-1
+    build:
+      context: .
+      dockerfile: Dockerfile-nodemanager
+    depends_on:
+      - hadoop-cluster-base
+
+  yarn-nodemanager-2:
+    hostname: yarn-nodemanager-2
+    build:
+      context: .
+      dockerfile: Dockerfile-nodemanager
+    depends_on:
+      - hadoop-cluster-base
+
+  yarn-nodemanager-3:
+    hostname: yarn-nodemanager-3
+    build:
+      context: .
+      dockerfile: Dockerfile-nodemanager
+    depends_on:
+      - hadoop-cluster-base
+
+  yarn-nodemanager-4:
+    hostname: yarn-nodemanager-4
+    build:
+      context: .
+      dockerfile: Dockerfile-nodemanager
+    depends_on:
+      - hadoop-cluster-base
+    environment:
+      DONT_START: 1
+
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile-gateway
+    depends_on:
+      - hadoop-cluster-base
+
+#volumes:
+#  hdfs0:
+#  hdfs1:
+#  hdfs2:
+#  hdfs3:
+  

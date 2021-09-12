@@ -1,0 +1,3 @@
+FROM hadoop-cluster-base:latest
+EXPOSE 8088
+CMD /opt/hadoop/bin/yarn resourcemanager

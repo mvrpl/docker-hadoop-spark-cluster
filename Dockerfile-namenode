@@ -1,0 +1,3 @@
+FROM hadoop-cluster-base:latest
+EXPOSE 9870
+CMD /opt/hadoop/bin/hdfs namenode -format -force && /opt/hadoop/bin/hdfs namenode

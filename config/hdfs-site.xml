@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+ <property>
+  <name>dfs.replication</name>
+  <value>2</value>
+ </property>
+<property>
+  <name>dfs.permissions.enabled</name>
+  <value>false</value>
+</property>
+<property>
+  <name>dfs.permissions</name>
+  <value>false</value>
+</property>
+
+<property>
+    <name>dfs.datanode.data.dir</name>
+    <value>file:///hadoop/datanode</value>
+</property>
+<property>
+    <name>dfs.namenode.name.dir</name>
+    <value>file:///hadoop/namenode</value>
+</property>
+<property>
+    <name>dfs.namenode.secondary.http-address</name>
+    <value>master.local:50090</value>
+</property>
+<property>
+    <name>dfs.blocksize</name>
+    <value>16777216</value> <!-- 16MB -->
+</property>
+<property>
+ <name>dfs.namenode.heartbeat.recheck-interval</name>
+ <value>15000</value> <!-- https://stackoverflow.com/a/8806762/6871666 -->
+</property>
+<property>
+ <name>dfs.heartbeat.interval</name>
+ <value>1s</value>
+</property>
+</configuration>

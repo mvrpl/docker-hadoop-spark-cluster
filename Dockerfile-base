@@ -1,0 +1,39 @@
+FROM openjdk:8
+
+ARG hadoop_version='3.3.0'
+ARG spark_version='3.0.3'
+ARG spark_hadoop_compat='3.2'
+
+RUN apt-get update \
+  && apt-get install -y python3 python3-pip nano vim \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN useradd -ms /bin/bash hadoop
+
+RUN mkdir -p /hadoop/tmp /hadoop/namenode /hadoop/datanode /opt \
+  && chown hadoop /hadoop /hadoop/* \
+  && chmod 0750 /hadoop/*
+
+COPY ./sw/hadoop-${hadoop_version}.tar.gz /opt/hadoop-${hadoop_version}.tar.gz
+RUN tar zxf /opt/hadoop-${hadoop_version}.tar.gz -C /opt/ \
+  && chown -R hadoop /opt/hadoop-${hadoop_version} \
+  && ln -s /opt/hadoop-${hadoop_version} /opt/hadoop
+
+COPY ./sw/spark-${spark_version}-bin-hadoop${spark_hadoop_compat}.tgz /opt/spark-${spark_version}-bin-hadoop${spark_hadoop_compat}.tgz
+RUN tar zxf /opt/spark-${spark_version}-bin-hadoop${spark_hadoop_compat}.tgz -C /opt/ \
+  && chown -R hadoop /opt/spark-${spark_version}-bin-hadoop${spark_hadoop_compat} \
+  && ln -s /opt/spark-${spark_version}-bin-hadoop${spark_hadoop_compat} /opt/spark
+
+COPY config/core-site.xml config/hdfs-site.xml config/yarn-site.xml config/mapred-site.xml config/hdfs-site.xml /opt/hadoop/etc/hadoop/
+COPY config/spark-defaults.conf /opt/spark/conf/
+
+ENV PATH=/usr/local/openjdk-8/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/hadoop/bin/:/opt/spark/bin/
+ENV YARN_CONF_DIR=/opt/hadoop/etc/hadoop
+ENV PYSPARK_PYTHON=python3
+ENV PYTHONHASHSEED=1234
+ENV SPARK_YARN_USER_ENV="PYSPARK_PYTHON=python3,PYTHONHASHSEED=1234"
+
+USER hadoop
+WORKDIR /home/hadoop
+CMD echo
